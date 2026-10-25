@@ -1,0 +1,540 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Para ti, mi amor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg1: #ffe6ec;
+        --bg2: #f4a3ba;
+        --wine: #7a1b3f;
+        --rose: #d6456c;
+        --ink: #4a1a2c;
+        --paper: #fff7f5;
+        --title: #7a1b3f;
+        --hc: #e0567a;
+        --heart: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.7 4.5 6.4 4.5c2.1 0 3.8 1.2 5.6 3.3 1.8-2.1 3.5-3.3 5.6-3.3 3.7 0 5.5 3.9 4 7.3C19.5 16.4 12 21 12 21z'/%3E%3C/svg%3E");
+        box-sizing: border-box;
+        padding-top: env(safe-area-inset-top, 0px);
+        padding-bottom: env(safe-area-inset-bottom, 0px);
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) {
+          --bg1: #3d1328;
+          --bg2: #15050c;
+          --title: #ffc2d1;
+          --hc: #c23a62;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --bg1: #3d1328;
+        --bg2: #15050c;
+        --title: #ffc2d1;
+        --hc: #c23a62;
+        color-scheme: dark;
+      }
+      html {
+        scroll-padding-top: env(safe-area-inset-top, 0px);
+      }
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        min-height: 100svh;
+        background: radial-gradient(120% 90% at 50% 0%, var(--bg1), var(--bg2))
+          fixed;
+        background-color: var(--bg2);
+        font-family: "Cormorant Garamond", Georgia, "Times New Roman", serif;
+        color: var(--ink);
+        overflow-x: hidden;
+      }
+
+      /* corazones de fondo */
+      .h,
+      .b {
+        -webkit-mask: var(--heart) center/contain no-repeat;
+        mask: var(--heart) center/contain no-repeat;
+        pointer-events: none;
+      }
+      .sky {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+      }
+      .h {
+        position: absolute;
+        bottom: -50px;
+        left: var(--x);
+        width: var(--s);
+        aspect-ratio: 1;
+        background: var(--hc);
+        opacity: 0;
+        animation: up var(--d) linear var(--t) infinite;
+      }
+      .h:nth-child(odd) {
+        --sw: -45px;
+      }
+      .h:nth-child(even) {
+        --sw: 45px;
+      }
+      @keyframes up {
+        0% {
+          transform: translate3d(0, 0, 0) rotate(-8deg) scale(0.8);
+          opacity: 0;
+        }
+        10% {
+          opacity: 0.65;
+        }
+        85% {
+          opacity: 0.4;
+        }
+        100% {
+          transform: translate3d(var(--sw), -115vh, 0) rotate(14deg) scale(1.1);
+          opacity: 0;
+        }
+      }
+
+      /* escenario */
+      .page {
+        position: relative;
+        z-index: 1;
+        min-height: 100svh;
+        display: grid;
+        place-items: center;
+        padding: 32px 16px 56px;
+      }
+      .tg {
+        position: absolute;
+        opacity: 0;
+        width: 1px;
+        height: 1px;
+      }
+      .stage {
+        display: grid;
+        width: 100%;
+        max-width: 600px;
+      }
+      .stage > * {
+        grid-area: 1/1;
+      }
+
+      /* sobre */
+      .cover {
+        align-self: center;
+        justify-self: center;
+        text-align: center;
+        transition:
+          opacity 0.6s 1s,
+          visibility 0s 1.6s;
+      }
+      .cover h1 {
+        font:
+          400 clamp(2.6rem, 11vw, 3.8rem)/1.1 "Pinyon Script",
+          cursive;
+        color: var(--title);
+        margin: 0 0 28px;
+      }
+      .envelope {
+        position: relative;
+        display: block;
+        width: min(86vw, 340px);
+        aspect-ratio: 3/2;
+        margin: 0 auto;
+        cursor: pointer;
+        filter: drop-shadow(0 18px 22px rgba(122, 27, 63, 0.35));
+        perspective: 900px;
+      }
+      .back {
+        position: absolute;
+        inset: 0;
+        background: #e98aa4;
+        border-radius: 6px;
+      }
+      .pocket {
+        position: absolute;
+        inset: 0;
+        background: #fbc3d1;
+        border-radius: 6px;
+        clip-path: polygon(0 0, 50% 56%, 100% 0, 100% 100%, 0 100%);
+      }
+      .flap {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        height: 60%;
+        background: #f2a0b6;
+        clip-path: polygon(0 0, 100% 0, 50% 100%);
+        transform-origin: top;
+        transition: transform 0.8s ease;
+        z-index: 2;
+      }
+      .seal {
+        position: absolute;
+        left: 50%;
+        top: 56%;
+        width: 17%;
+        aspect-ratio: 1;
+        translate: -50% -50%;
+        border-radius: 50%;
+        background: radial-gradient(circle at 35% 30%, #b8284f, var(--wine));
+        z-index: 3;
+        animation: beat 1.6s ease-in-out infinite;
+        transition: opacity 0.3s;
+      }
+      .seal::after {
+        content: "";
+        position: absolute;
+        inset: 26%;
+        background: #ffd9e2;
+        -webkit-mask: var(--heart) center/contain no-repeat;
+        mask: var(--heart) center/contain no-repeat;
+      }
+      .hint {
+        margin: 26px 0 0;
+        font-style: italic;
+        font-size: 1.3rem;
+        color: var(--title);
+      }
+      .tg:focus-visible ~ .stage .envelope {
+        outline: 3px solid var(--title);
+        outline-offset: 8px;
+        border-radius: 8px;
+      }
+      @keyframes beat {
+        0%,
+        100% {
+          scale: 1;
+        }
+        14% {
+          scale: 1.16;
+        }
+        28% {
+          scale: 1;
+        }
+        42% {
+          scale: 1.1;
+        }
+        70% {
+          scale: 1;
+        }
+      }
+
+      /* al abrir */
+      .tg:checked ~ .stage .flap {
+        transform: rotateX(180deg);
+      }
+      .tg:checked ~ .stage .seal {
+        opacity: 0;
+        animation: none;
+      }
+      .tg:checked ~ .stage .cover {
+        opacity: 0;
+        visibility: hidden;
+      }
+
+      /* carta */
+      .letter {
+        display: none;
+        align-self: start;
+      }
+      .tg:checked ~ .stage .letter {
+        display: block;
+        animation: rise 1.2s ease 1s both;
+      }
+      @keyframes rise {
+        from {
+          opacity: 0;
+          transform: translateY(60px) scale(0.96);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .paper {
+        position: relative;
+        background: var(--paper);
+        border-radius: 4px;
+        padding: clamp(30px, 7vw, 60px) clamp(24px, 7vw, 56px)
+          clamp(34px, 7vw, 56px);
+        box-shadow:
+          0 24px 50px rgba(74, 26, 44, 0.28),
+          0 2px 0 rgba(255, 255, 255, 0.7) inset;
+        border-left: 5px solid #f4b6c6;
+      }
+      .tg:checked ~ .stage .paper > * {
+        animation: ink 0.9s ease both;
+        animation-delay: calc(1.5s + var(--i, 0) * 0.45s);
+      }
+      @keyframes ink {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: none;
+        }
+      }
+      .stamp {
+        position: absolute;
+        top: 22px;
+        right: 22px;
+        width: 34px;
+        aspect-ratio: 1;
+        background: var(--rose);
+        -webkit-mask: var(--heart) center/contain no-repeat;
+        mask: var(--heart) center/contain no-repeat;
+        opacity: 0.85;
+      }
+      .paper h2 {
+        font:
+          400 clamp(2.4rem, 9vw, 3.2rem)/1.1 "Pinyon Script",
+          cursive;
+        color: #7a1b3f;
+        margin: 0 0 18px;
+      }
+      .paper p {
+        font-size: clamp(1.2rem, 4.4vw, 1.4rem);
+        line-height: 1.65;
+        margin: 0 0 1.1em;
+        max-width: 34em;
+      }
+      .paper .lead {
+        font-style: italic;
+        color: #7a1b3f;
+        margin-bottom: 0.5em;
+      }
+      .paper ul {
+        list-style: none;
+        margin: 0 0 1.4em;
+        padding: 0;
+      }
+      .paper li {
+        position: relative;
+        padding-left: 34px;
+        font-size: clamp(1.2rem, 4.4vw, 1.4rem);
+        line-height: 1.5;
+        margin-bottom: 0.7em;
+      }
+      .paper li::before {
+        content: "";
+        position: absolute;
+        left: 2px;
+        top: 0.28em;
+        width: 20px;
+        aspect-ratio: 1;
+        background: var(--rose);
+        -webkit-mask: var(--heart) center/contain no-repeat;
+        mask: var(--heart) center/contain no-repeat;
+      }
+      .final {
+        text-align: center;
+        margin-top: 1.6em;
+      }
+      .big {
+        display: block;
+        width: 76px;
+        aspect-ratio: 1;
+        margin: 0 auto 12px;
+        background: linear-gradient(160deg, #ee6a8d, #b8284f);
+        -webkit-mask: var(--heart) center/contain no-repeat;
+        mask: var(--heart) center/contain no-repeat;
+        animation: beat 1.5s ease-in-out infinite;
+      }
+      .final .te {
+        font:
+          400 clamp(2.6rem, 11vw, 3.6rem)/1.1 "Pinyon Script",
+          cursive;
+        color: #b8284f;
+        margin: 0;
+      }
+      .sign {
+        font:
+          400 1.9rem/1.2 "Pinyon Script",
+          cursive;
+        color: #7a1b3f;
+        text-align: right;
+        margin: 1.4em 0 0;
+      }
+
+      /* corazones al abrir */
+      .burst {
+        display: none;
+      }
+      .tg:checked ~ .burst {
+        display: block;
+      }
+      .b {
+        position: fixed;
+        left: 50%;
+        top: 55%;
+        width: var(--s, 24px);
+        aspect-ratio: 1;
+        background: var(--rose);
+        z-index: 2;
+        opacity: 0;
+        animation: burst 2.8s ease-out var(--w, 0.8s) both;
+      }
+      .b:nth-child(3n) {
+        background: #ff9db5;
+      }
+      @keyframes burst {
+        0% {
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 0;
+        }
+        15% {
+          opacity: 1;
+        }
+        100% {
+          transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+            scale(1.2);
+          opacity: 0;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation: none !important;
+          transition: none !important;
+        }
+        .sky,
+        .burst {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sky" aria-hidden="true">
+      <span class="h" style="--x: 4%; --s: 18px; --d: 15s; --t: -3s"></span>
+      <span class="h" style="--x: 14%; --s: 30px; --d: 19s; --t: -11s"></span>
+      <span class="h" style="--x: 23%; --s: 14px; --d: 13s; --t: -6s"></span>
+      <span class="h" style="--x: 33%; --s: 24px; --d: 17s; --t: -1s"></span>
+      <span class="h" style="--x: 42%; --s: 16px; --d: 14s; --t: -9s"></span>
+      <span class="h" style="--x: 51%; --s: 34px; --d: 21s; --t: -14s"></span>
+      <span class="h" style="--x: 60%; --s: 20px; --d: 16s; --t: -5s"></span>
+      <span class="h" style="--x: 69%; --s: 26px; --d: 18s; --t: -12s"></span>
+      <span class="h" style="--x: 77%; --s: 15px; --d: 13s; --t: -2s"></span>
+      <span class="h" style="--x: 85%; --s: 32px; --d: 20s; --t: -8s"></span>
+      <span class="h" style="--x: 92%; --s: 19px; --d: 15s; --t: -10s"></span>
+      <span class="h" style="--x: 97%; --s: 25px; --d: 17s; --t: -4s"></span>
+    </div>
+
+    <main class="page">
+      <input class="tg" type="checkbox" id="open" aria-label="Abrir la carta" />
+
+      <div class="stage">
+        <div class="cover">
+          <h1>Para ti, mi amor</h1>
+          <label class="envelope" for="open">
+            <span class="back"></span>
+            <span class="pocket"></span>
+            <span class="flap"></span>
+            <span class="seal"></span>
+          </label>
+          <p class="hint">Toca el sello para abrir</p>
+        </div>
+
+        <article class="letter">
+          <div class="paper">
+            <span class="stamp" aria-hidden="true"></span>
+            <h2 style="--i: 0">Mi amor,</h2>
+            <p class="lead" style="--i: 1">
+              No sé por dónde empezar, porque lo que siento por ti no cabe en
+              una sola carta.
+            </p>
+            <p style="--i: 2">
+              Quería escribirte algo que pudieras abrir cuando quisieras, en un
+              día bueno o en uno difícil, para que recuerdes lo mucho que te
+              amo. Contigo, hasta los días más comunes se vuelven especiales.
+            </p>
+            <p style="--i: 3">
+              Gracias por quedarte a mi lado, por creer en mí cuando yo todavía
+              no lo hacía y por hacerme querer ser mejor cada día.
+            </p>
+            <ul style="--i: 4">
+              <li>Tu risa, que me arregla el día en un segundo.</li>
+              <li>
+                La forma en que me miras, como si el resto del mundo se callara.
+              </li>
+              <li>Lo tranquilo que se siente todo cuando estoy contigo.</li>
+            </ul>
+            <p style="--i: 5">
+              Eres lo más bonito que me ha pasado, y quiero seguir descubriendo
+              la vida contigo, un día a la vez.
+            </p>
+            <div class="final" style="--i: 6">
+              <span class="big" aria-hidden="true"></span>
+              <p class="te">Te amo, hoy y siempre</p>
+            </div>
+            <p class="sign" style="--i: 7">Con todo mi corazón</p>
+          </div>
+        </article>
+      </div>
+
+      <div class="burst" aria-hidden="true">
+        <span
+          class="b"
+          style="--dx: -150px; --dy: -300px; --s: 26px; --w: 0.8s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: 130px; --dy: -340px; --s: 20px; --w: 0.9s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: -60px; --dy: -380px; --s: 32px; --w: 1s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: 80px; --dy: -260px; --s: 18px; --w: 1.05s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: -210px; --dy: -180px; --s: 22px; --w: 1.1s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: 200px; --dy: -200px; --s: 28px; --w: 1.15s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: 20px; --dy: -420px; --s: 24px; --w: 1.2s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: -110px; --dy: -120px; --s: 16px; --w: 1.3s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: 150px; --dy: -110px; --s: 20px; --w: 1.35s"
+        ></span>
+        <span
+          class="b"
+          style="--dx: -20px; --dy: -220px; --s: 30px; --w: 1.4s"
+        ></span>
+      </div>
+    </main>
+  </body>
+</html>
